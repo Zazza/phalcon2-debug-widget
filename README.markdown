@@ -34,7 +34,7 @@ defined('PHALCONDEBUG') || define('PHALCONDEBUG', true);
 After you have setup your \Phalcon\Loader and \Phalcon\DI\FactoryDefault() create a new instance of the debug widget. Here we will tell phalcon about the PDW namespace and instantiate the widget with the $di. (Assuming $di is your dependency injector and $loader is your \Phalcon\Loader)
 ```php
 if (PHALCONDEBUG == true) {
-	$namespaces = array_merge($loader->getNamespaces(), array('PDW'=>realpath('/path/to/PDW')));
+	$namespaces = array_merge($loader->getNamespaces(), array('PDW'=>__DIR__ . '/path/to/PDW'));
 	$loader->registerNamespaces($namespaces);
 	$debugWidget = new \PDW\DebugWidget($di);
 }

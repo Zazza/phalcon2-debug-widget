@@ -8,7 +8,7 @@
 	</div>
 	<div class='panel-content'>
 		<h3 class='collapser'>SQL Queries</h3>
-		<table class='pdw-data-table'>
+		<table class='pdw-sql-data-table'>
 			<thead>
 				<tr>
 					<th>Query</th>
@@ -22,14 +22,15 @@
 					$time = $profile->getTotalElapsedSeconds();
 					$total += $time;
 					echo "<tr>";
-						echo "<td><pre><code class='language-sql'>" . $profile->getSQLStatement() . "</code></pre></td>";
-						echo "<td><pre>" . print_r($profile->getSQLVariables(), true) . "</pre></td>";
+						echo "<td>" . $profile->getSQLStatement() . "</td>";
+                        echo "<td>" . print_r($profile->getSQLVariables(), true) . "</td>";
 						echo "<td>" . round($time, 6) . "</td>";
 					echo "</tr>";
 				endforeach;
 			?>
 			<tr>
 				<td><strong>Total:</strong></td>
+                <td></td>
 				<td><strong><?php echo round($total, 6); ?></strong></td>
 			</tr>
 			</tbody>
@@ -51,7 +52,12 @@
 				foreach($descriptors as $k=>$v):
 					echo "<tr>";
 						echo "<td>{$k}</td>";
-						echo "<td>{$v}</td>";
+                        if (is_string($v))
+                            echo "<td>{$v}</td>";
+                        else
+                            echo "<td>";
+                            print_r($v);
+                            echo "</td>";
 					echo "</tr>";
 				endforeach;
 			?>

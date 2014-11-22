@@ -1,68 +1,191 @@
-<div class="pdw-wrap">
-	<a id='pdw-icon'></a>
-	<div id='pdw-toolbar'>
-		<ul id='pdw-main-nav'>
-			<li>
-				<a href='#server'>
-					Server<br />
-					<small>Phalcon: <?php echo \Phalcon\Version::get(); ?></small>
-				</a>
-			</li>
-			<li>
-				<a href='#request'>
-					Request
-				</a>
-			</li>
-			<li>
-				<a href='#views'>
-					Views<br />
-					<small><?php echo count($debugWidget->getRenderedViews()); ?> rendered</small>
-				</a>
-			</li>
-			<li>
-				<a href='#db'>
-					Database<br />
-					<small><?php echo $debugWidget->getQueryCount(); ?> queries</small>
-				</a>
-			</li>
-		</ul>
-		<?php
-			$panels = array('server', 'request', 'views', 'db');
-			foreach ($panels as $panel) {
-				$this->partial("panels/{$panel}");
-			}
-		?>
+<script style='text/javascript' src='/pdw-assets/pdw.js'></script>
+<style>
+    #pdw-toolbar-hide {
+        background-color: #f7f7f7;
+        border-right: 1px solid #eeeeee;
+        border-top: 1px solid #eeeeee;
+        bottom: 0;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        padding: 7px;
+        position: fixed;
+        left: 0;
+    }
+    #pdw-toolbar {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 50px;
+        margin-bottom: 0;
+        font-size: 13px;
+        color: #000000;
+        background-color: #f7f7f7;
+        border-top: 1px solid #eeeeee;
+    }
+    #pdw-toolbar > .pdw-ul {
+        float: left;
+        display: block;
+        margin: 0;
+        padding: 0;
+    }
+    #pdw-toolbar > .pdw-ul > li {
+        float: left;
+        list-style: outside none none;
+        vertical-align: middle;
+    }
+    #pdw-toolbar > .pdw-ul > li > a {
+        color: #000000;
+        padding: 5px 15px;
+        float: none;
+        display: block;
+    }
+    #pdw-toolbar > .pdw-ul > li > .label {
+        background-color: #999999;
+        color: #ffffff;
+        display: inline-block;
+        font-size: 11.844px;
+        font-weight: normal;
+        line-height: 14px;
+        padding: 2px 4px;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        vertical-align: baseline;
+        white-space: nowrap;
+    }
+    .label-info {
+        background-color: #3a87ad;
+    }
+    #pdw-icon {
+        float: left;
+        display: block;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+        padding: 7px 0 0 7px;
+    }
+    .pdw-panel {
+        z-index: 10001;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 50px;
+        left: 0;
+        background: #ffffff;
+        overflow: auto;
+        padding: 10px;
+    }
+    .pdw-panel-close {
+        cursor: pointer;
+    }
+    .pdw-sql-data-table {
+        width: 100%;
+    }
+    .pdw-sql-data-table tr td {
+        border: 1px solid #eeeeee;
+        padding: 4px;
+    }
+</style>
 
-	<div id='pdw-resources'>
-		<h3 class='title'>Resource Usage</h3>
-		<table>
-			<tbody>
-				<tr>
-					<td>load time</td>
-					<td><?php echo round(($debugWidget->getEndTime() - $debugWidget->getStartTime()), 6); ?> s</td>
-				</tr>
-				<tr>
-					<td>elapsed time</td>
-					<td><?php echo round(($debugWidget->getEndTime() - $_SERVER['REQUEST_TIME'] ), 6); ?> s</td>
-				</tr>
-				<tr>
-					<td>mem</td>
-					<td><?php echo number_format(memory_get_usage()/1024, 2); ?> KB</td>
-				</tr>
-				<tr>
-					<td>mem peak</td>
-					<td><?php echo number_format(memory_get_peak_usage()/1024, 2); ?> KB</td>
-				</tr>
-				<tr>
-                   <td>session size</td>
+<div id="pdw-toolbar-hide">
+    <img src="/pdw-assets/img/icon.png" />
+</div>
+<div id="pdw-toolbar">
+    <div id="pdw-icon">
+        <img src="/pdw-assets/img/icon.png" />
+    </div>
+    <ul class="pdw-ul">
+        <li>
+            <a href='#' class="pwd-link" data-id="server">
+                <b>Server</b>
+                <br />
+                <small class="label">
+                    Phalcon: <?php echo \Phalcon\Version::get(); ?>
+                </small>
+            </a>
+        </li>
+        <li>
+            <a href='#' class="pwd-link" data-id="request">
+                <b>Request</b>
+            </a>
+        </li>
+        <li>
+            <a href='#' class="pwd-link" data-id="views">
+                <b>Views</b>
+                <br />
+                <small class="label">
+                    <?php echo count($debugWidget->getRenderedViews()); ?> rendered
+                </small>
+            </a>
+        </li>
+        <li>
+            <a href='#' class="pwd-link" data-id="db">
+                <b>Database</b>
+                <br />
+                <small class="label">
+                    <?php echo $debugWidget->getQueryCount(); ?> queries
+                </small>
+            </a>
+        </li>
+    </ul>
+    <?php
+    $panels = array('server', 'request', 'views', 'db');
+    foreach ($panels as $panel) {
+        echo "<div class='pdw-panels' id='pdw-panel-{$panel}' style='display: none;'>";
+        $this->partial("panels/{$panel}");
+        echo "</div>";
+    }
+    ?>
+
+    <ul class="pdw-ul">
+        <li>
+            <a>
+                Load time:
+                <br />
+                <small class="label label-info">
+                    <?php echo round(($debugWidget->getEndTime() - $debugWidget->getStartTime()), 6); ?> s
+                </small>
+            </a>
+        </li>
+        <li>
+            <a>
+                Elapsed time:
+                <br />
+                <small class="label label-info">
+                    <?php echo round(($debugWidget->getEndTime() - $_SERVER['REQUEST_TIME'] ), 6); ?> s
+                </small>
+            </a>
+        </li>
+        <li>
+            <a>
+                Mem:
+                <br />
+                <small class="label label-info">
+                    <?php echo number_format(memory_get_usage()/1024, 2); ?> KB
+                </small>
+            </a>
+        </li>
+        <li>
+            <a>
+                Mem peak:
+                <br />
+                <small class="label label-info">
+                    <?php echo number_format(memory_get_peak_usage()/1024, 2); ?> KB
+                </small>
+            </a>
+        </li>
+        <li>
+            <a>
+                Session size:
+                <br/>
+                <small class="label label-info">
                     <?php if(isset($_SESSION)):?>
-					    <td><?php printf('%0.3F KB' ,mb_strlen(serialize($_SESSION))/1024); ?></td>
+                        <?php printf('%0.3F KB' ,mb_strlen(serialize($_SESSION))/1024); ?>
                     <?php else:?>
-                        <td>0</td>
+                        0
                     <?php endif?>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	</div>
+                </small>
+            </a>
+        </li>
+    </ul>
 </div>
