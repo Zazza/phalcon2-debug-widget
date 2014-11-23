@@ -1,4 +1,6 @@
 Phalcon Debug Widget (PDW)
+
+(forked from [jymboche/phalcon-debug-widget](https://github.com/jymboche/phalcon-debug-widget))
 ===
 Note (How it works):
 =====
@@ -18,12 +20,14 @@ If it looks familiar, its because its modeled after the [Yii debug toolbar](http
 
 ## Installation
 
-Copy the main PDW folder into your project where you keep third-party libraries.
-For example (app/library or app/vendor or /vendor). Copy or move the pdw-assets folder to your public folder.
+composer.json:
+```
+"zazza/phalcon-debug-widget": "dev-master"
+```
+
+Copy or move the /vendor/zazza/phalcon-debug-widget/src/pdw-assets folder to your public folder.
 
 ## Usage and Configuration
-
-
 
 Define a debug or environment flag in your main index.php file so you can easily disable the Phalcon Debug Widget on production environments. Example:
 
@@ -31,11 +35,10 @@ Define a debug or environment flag in your main index.php file so you can easily
 defined('PHALCONDEBUG') || define('PHALCONDEBUG', true);
 ```
 
-After you have setup your \Phalcon\Loader and \Phalcon\DI\FactoryDefault() create a new instance of the debug widget. Here we will tell phalcon about the PDW namespace and instantiate the widget with the $di. (Assuming $di is your dependency injector and $loader is your \Phalcon\Loader)
+After you have setup your \Phalcon\Loader and \Phalcon\DI\FactoryDefault() create a new instance of the debug widget. 
+
 ```php
 if (PHALCONDEBUG == true) {
-	$namespaces = array_merge($loader->getNamespaces(), array('PDW'=>__DIR__ . '/path/to/PDW'));
-	$loader->registerNamespaces($namespaces);
 	$debugWidget = new \PDW\DebugWidget($di);
 }
 ```
@@ -48,7 +51,5 @@ if (PHALCONDEBUG == true) {
 ## Attribution:
 
 Bug Icon designed by [Nithin Viswanathan](http://thenounproject.com/nsteve) from the [Noun Project](http://thenounproject.com)
-
-JQuery Syntax Highlighting implemented with [Prismjs.com](http://prismjs.com/)
 
 
