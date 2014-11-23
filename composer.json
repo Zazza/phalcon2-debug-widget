@@ -10,5 +10,11 @@
             "name": "Dmitry Samotoy",
             "email": "dmitry.samotoy@gmail.com"
         }
-    ]
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "HelloWorld": "src/"
+        }
+    }
 }
