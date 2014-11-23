@@ -1,6 +1,4 @@
-Phalcon Debug Widget (PDW)
-
-(forked from [jymboche/phalcon-debug-widget](https://github.com/jymboche/phalcon-debug-widget))
+Phalcon Debug Widget (PDW) (forked from [jymboche/phalcon-debug-widget](https://github.com/jymboche/phalcon-debug-widget))
 ===
 Note (How it works):
 =====
