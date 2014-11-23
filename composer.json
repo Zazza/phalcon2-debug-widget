@@ -1,5 +1,5 @@
 {
-    "name": "vendor/phalcon-debug-widget",
+    "name": "zazza/phalcon-debug-widget",
     "description": "Phalcon debug toolbar",
     "authors": [
         {
