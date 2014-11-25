@@ -53,7 +53,10 @@
 					echo "<tr>";
 						echo "<td>{$k}</td>";
                         if (is_string($v))
-                            echo "<td>{$v}</td>";
+        		    if ($k != "password")
+                                echo "<td>{$v}</td>";
+                            else
+                                echo "<td>**********</td>";
                         else
                             echo "<td>";
                             print_r($v);
