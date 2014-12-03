@@ -15,13 +15,14 @@
 			<?php
             if(isset($_SESSION)){
 				foreach($_SESSION as $k=>$v):
-					$class = is_array($v)? "language-php" : "";
-					echo "<tr>";
-						echo "<td>{$k}</td>";
-						echo "<td><pre class=''><code class='{$class}'>";
-							print_r($v);
-						echo "</code></pre></td>";
-					echo "</tr>";
+                    if ($k != '$PMM$') {
+                        echo "<tr>";
+                            echo "<td>{$k}</td>";
+                            echo "<td><pre>";
+                                print_r($v);
+                            echo "</pre></td>";
+                        echo "</tr>";
+                    }
 				endforeach;
             }
 			?>
