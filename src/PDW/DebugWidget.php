@@ -49,7 +49,7 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 		$this->_serviceNames = $serviceNames;
 	}
 
-	public function setDI(Phalcon\DiInterface $di)
+	public function setDI(\Phalcon\DiInterface $di)
 	{
 		$this->_di = $di;
 	}
