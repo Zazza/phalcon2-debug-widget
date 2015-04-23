@@ -1,6 +1,6 @@
 {
-    "name": "zazza/phalcon-debug-widget",
-    "description": "Phalcon debug toolbar",
+    "name": "zazza/phalcon2-debug-widget",
+    "description": "Phalcon debug toolbar for Phalcon 2",
     "require": {
         "php": ">=5.3.0"
     },
