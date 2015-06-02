@@ -5,6 +5,12 @@ Phalcon Debug Widget (PDW) for Phalcon 2
 
 2) Update from https://github.com/Zazza/phalcon-debug-widget
 
+Changelog:
+=====
+- it isn't necessary to move assets(/pdw-assets/) to public dir
+- jquery dependence is removed
+- the sections: Server, Views, Database hide and show by click
+
 Note (How it works):
 =====
 The debug widget for now is very simplistic and more of a proof-of-concept. It expects you have three services in your dependency injector named "db", "dispatcher" and "view" and that they correspond to those services. When you pass the DI to Phalcon Debug Widget It looks for those specific services and:
