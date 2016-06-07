@@ -21,6 +21,7 @@
         color: #000000;
         background-color: #f7f7f7;
         border-top: 1px solid #eeeeee;
+        z-index: 5000;
     }
     #pdw-toolbar > .pdw-ul {
         float: left;
@@ -106,7 +107,7 @@
             <a href='#' class="pwd-link" data-id="server">
                 <b>Server</b>
                 <br />
-                <small class="label">
+                <small class="label label-success">
                     Phalcon: <?php echo \Phalcon\Version::get(); ?>
                 </small>
             </a>
@@ -115,7 +116,7 @@
             <a href='#' class="pwd-link" data-id="views">
                 <b>Views</b>
                 <br />
-                <small class="label">
+                <small class="label label-success">
                     <?php echo count($debugWidget->getRenderedViews()); ?> rendered
                 </small>
             </a>
@@ -124,7 +125,7 @@
             <a href='#' class="pwd-link" data-id="db">
                 <b>Database</b>
                 <br />
-                <small class="label">
+                <small class="label label-success">
                     <?php echo $debugWidget->getQueryCount(); ?> queries
                 </small>
             </a>
