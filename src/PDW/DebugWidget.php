@@ -9,27 +9,27 @@ use Phalcon\Db\Profiler as Profiler,
 
 class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 {
+    const DEFAULTS_SERVICE_NAMES = [
+        'db' => ['db'],
+        'dispatch' => ['dispatcher'],
+        'view' => ['view']
+    ];
 
 	protected $_di;
 	private $startTime;
 	private $endTime;
 	private $queryCount = 0;
 	protected $_profiler;
-	protected $_viewsRendered = array();
-        protected $_serviceNames = array();
+	protected $_viewsRendered = [];
+    protected $_serviceNames = [];
+    private $minimized = true;
 
-	public function __construct(
-		$di,
-		$serviceNames =
-			array(
-				'db' => array('db'),
-				'dispatch' => array('dispatcher'),
-				'view' => array('view')
-			)
-	) {
+	public function __construct($di, $serviceNames = self::DEFAULTS_SERVICE_NAMES, $minimized = true)
+    {
 		$this->_di = $di;
 		$this->startTime = microtime(true);
 		$this->_profiler = new Profiler();
+		$this->minimized = $minimized;
 
 		$eventsManager = $di->get('eventsManager');
 
@@ -88,14 +88,14 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 	 */
 	public function beforeRenderView($event,$view,$file)
 	{
-		$params = array();
+		$params = [];
 		$toView = $view->getParamsToView();
-		$toView = !$toView? array() : $toView;
+		$toView = !$toView? [] : $toView;
 		foreach ($toView as $k=>$v) {
 			if (is_object($v)) {
 				$params[$k] = get_class($v);
 			} elseif(is_array($v)) {
-				$array = array();
+				$array = [];
 				foreach ($v as $key=>$value) {
 					if (is_object($value)) {
 						$array[$key] = get_class($value);
@@ -111,12 +111,12 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 			}
 		}
 
-		$this->_viewsRendered[] = array(
+		$this->_viewsRendered[] = [
 			'path'=>$view->getActiveRenderPath(),
 			'params'=>$params,
 			'controller'=>$view->getControllerName(),
 			'action'=>$view->getActionName(),
-		);
+		];
 	}
 
 
@@ -142,7 +142,28 @@ class DebugWidget implements \Phalcon\DI\InjectionAwareInterface
 		// set vars
 		$view->debugWidget = $this;
 
-		$content = $view->getRender('toolbar', 'index');
+        $content = $view->getRender('toolbar', 'index');
+
+        if ($this->minimized) {
+            $search = [
+                '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
+                '/[^\S ]+\</s',     // strip whitespaces before tags, except space
+                '/(\s)+/s',         // shorten multiple whitespace sequences
+                '/<!--(.|\s)*?-->/' // Remove HTML comments
+            ];
+
+            $replace = [
+                '>',
+                '<',
+                '\\1',
+                ''
+            ];
+
+            $content = preg_replace($search, $replace, $content);
+        }
+
+		//$content = $view->getRender('toolbar', $template);
+
 		return $content;
 	}
 

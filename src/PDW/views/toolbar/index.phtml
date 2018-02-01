@@ -31,7 +31,7 @@
     }
     #pdw-toolbar > .pdw-ul > li {
         float: left;
-        list-style: outside none none;
+        list-style: none;
         vertical-align: middle;
     }
     #pdw-toolbar > .pdw-ul > li > a {
@@ -46,7 +46,7 @@
         float: none;
         display: block;
     }
-    #pdw-toolbar > .pdw-ul > li > .label {
+    #pdw-toolbar > .pdw-ul > li .label {
         background-color: #999999;
         color: #ffffff;
         display: inline-block;
@@ -58,8 +58,11 @@
         vertical-align: baseline;
         white-space: nowrap;
     }
-    .label-info {
+    #pdw-toolbar > .pdw-ul > li .label.label-info {
         background-color: #3a87ad;
+    }
+    #pdw-toolbar > .pdw-ul > li .label.label-success {
+        background-color: green;
     }
     #pdw-icon {
         float: left;
@@ -104,8 +107,8 @@
     </div>
     <ul class="pdw-ul">
         <li class="pdw-li">
-            <a href='#' class="pwd-link" data-id="server">
-                <b>Server</b>
+            <a>
+                Server
                 <br />
                 <small class="label label-success">
                     Phalcon: <?php echo \Phalcon\Version::get(); ?>
@@ -132,12 +135,13 @@
         </li>
     </ul>
     <?php
-    $panels = array('server', 'views', 'db');
-    foreach ($panels as $panel) {
-        echo "<div class='pdw-panels' id='pdw-panel-{$panel}' style='display: none;'>";
-        $this->partial("panels/{$panel}");
+        echo "<div class='pdw-panels' id='pdw-panel-views' style='display: none;'>";
+        $this->partial("panels/views");
         echo "</div>";
-    }
+
+        echo "<div class='pdw-panels' id='pdw-panel-db' style='display: none;'>";
+        $this->partial("panels/db");
+        echo "</div>";
     ?>
 
     <ul class="pdw-ul">
@@ -266,7 +270,6 @@
             }
 
             if (document.getElementById("pdw-panel-" + href).style.display == "none") {
-                document.getElementById("pdw-panel-server").style.display = 'none';
                 document.getElementById("pdw-panel-views").style.display = 'none';
                 document.getElementById("pdw-panel-db").style.display = 'none';
 
@@ -276,7 +279,6 @@
 
                 document.body.style.overflow = 'hidden';
             } else {
-                document.getElementById("pdw-panel-server").style.display = 'none';
                 document.getElementById("pdw-panel-views").style.display = 'none';
                 document.getElementById("pdw-panel-db").style.display = 'none';
 

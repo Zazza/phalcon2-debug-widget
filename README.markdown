@@ -7,6 +7,21 @@ Phalcon Debug Widget (PDW) for Phalcon 2
 
 Changelog:
 =====
+1 February 2018:
+- The 'server' tab has been removed. Since this data can be viewed to any firebug from the browser
+- By default, css, js and html PDW code is minimized:
+```
+$ debugWidget = new \ PDW \ DebugWidget ($ di);
+```
+or
+```
+$ debugWidget = new \ PDW \ DebugWidget ($ di, [
+         'db' => ['db'],
+         'dispatch' => ['dispatcher'],
+         'view' => ['view']
+     ], $ minimify = false);
+```
+=====
 - it isn't necessary to move assets(/pdw-assets/) to public dir
 - jquery dependence is removed
 - the sections: Server, Views, Database hide and show by click
