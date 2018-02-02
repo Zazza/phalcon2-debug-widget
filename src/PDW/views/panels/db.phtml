@@ -23,7 +23,14 @@
 					$total += $time;
 					echo "<tr>";
 						echo "<td>" . $profile->getSQLStatement() . "</td>";
-                        echo "<td>" . print_r($profile->getSQLVariables(), true) . "</td>";
+                        echo "<td>"; // . print_r($profile->getSQLVariables(), true) .
+
+                        foreach ($profile->getSQLVariables() as $key=>$value) {
+                            echo '[' . htmlspecialchars($key) . '] => ' . htmlspecialchars($value);
+                            echo '<br/>';
+                        }
+
+                        echo "</td>";
 						echo "<td>" . round($time, 6) . "</td>";
 					echo "</tr>";
 				endforeach;

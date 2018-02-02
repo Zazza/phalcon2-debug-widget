@@ -7,6 +7,9 @@ Phalcon Debug Widget (PDW) for Phalcon 2 (and 3)
 
 Changelog:
 =====
+2 February 2018:
+- db panel output with htmlspecialchars
+=====
 1 February 2018:
 - The 'server' tab has been removed. Since this data can be viewed to any firebug from the browser
 - By default, css, js and html PDW code is minimized:
