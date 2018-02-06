@@ -1,6 +1,6 @@
 <?php
 	$profiles = $debugWidget->getProfiler()->getProfiles();
-	$profiles = !$profiles? array() : $profiles;
+	$profiles = !$profiles? [] : $profiles;
 ?>
 <div id='pdw-panel-db' class='pdw-panel db'>
 	<div class='title'>
@@ -23,7 +23,11 @@
 					$total += $time;
 					echo "<tr>";
 						echo "<td>" . $profile->getSQLStatement() . "</td>";
-                        echo "<td>"; // . print_r($profile->getSQLVariables(), true) .
+                        echo "<td>";
+
+                        if (!is_array($profile->getSQLVariables())) {
+                            continue;
+                        }
 
                         foreach ($profile->getSQLVariables() as $key=>$value) {
                             echo '[' . htmlspecialchars($key) . '] => ' . htmlspecialchars($value);
