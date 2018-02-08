@@ -30,9 +30,10 @@
                         }
 
                         foreach ($profile->getSQLVariables() as $key=>$value) {
-                            $value = htmlspecialchars($value);
                             if (is_array($value)) {
                                 $value = htmlspecialchars(implode(', ', $value));
+                            } else {
+                                $value = htmlspecialchars($value);
                             }
                             echo '[' . htmlspecialchars($key) . '] => ' . $value;
                             echo '<br/>';
